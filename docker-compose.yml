@@ -1,0 +1,16 @@
+services:
+  postgres:
+    image: postgres:16
+    container_name: hobby-hub-db
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: hobbyhub
+      POSTGRES_PASSWORD: hobbyhub123
+      POSTGRES_DB: hobbyhub
+    ports:
+      - "5432:5432"
+    volumes:
+      - hobby_hub_data:/var/lib/postgresql/data
+
+volumes:
+  hobby_hub_data:

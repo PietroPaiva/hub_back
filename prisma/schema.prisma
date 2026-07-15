@@ -1,0 +1,140 @@
+datasource db {
+  provider = "postgresql"
+}
+
+generator client {
+  provider = "prisma-client"
+  output   = "../generated/prisma"
+}
+
+model User {
+  id Int @id @default(autoincrement())
+  email String @unique
+  senha String
+  fichaPersonagem FichaPersonagem[]
+}
+
+model Hobby {
+  id Int @id @default(autoincrement())
+}
+
+model FichaPersonagem {
+  id Int @id @default(autoincrement())
+  descricao Descricao?
+  aptidoes Aptidoes?
+  saude Saude?
+  determinacao Determinacao?
+  inventario Inventario[]
+  caracteristica Carcteristica[]
+  assimilacoes Assimilacoes[]
+  userId Int 
+  relationUser User @relation(fields: [userId], references: [id])
+}
+
+model Descricao {
+  id Int @id @default(autoincrement())  
+  nome String
+  eventoMarcante String
+  ocupacao String
+  geracao String
+  propositosPessoais String
+  propositosColetivos String
+  fichaId Int @unique
+  ficha FichaPersonagem @relation(fields: [fichaId], references: [id])
+}
+
+model Aptidoes {
+  id Int @id @default(autoincrement())
+  instintos Instintos?
+  conhecimentos Conhecimentos?
+  praticas Praticas?
+  fichaId Int @unique
+  ficha FichaPersonagem @relation(fields: [fichaId], references: [id])
+}
+
+model Instintos {
+  id Int @id @default(autoincrement())
+  influencia Int @default(1)
+  percepcao Int @default(1)
+  potencia Int @default(1)
+  reacao Int @default(1)
+  resolucao Int @default(1)
+  sagacidade Int @default(1)
+  aptidoesId Int @unique
+  aptidoes Aptidoes @relation(fields: [aptidoesId], references: [id])
+}
+
+model Conhecimentos {
+  id Int @id @default(autoincrement())
+  biologia Int
+  erudicao Int
+  engenharia Int
+  geografia Int
+  medicina Int
+  seguranca Int
+  aptidoesId Int @unique
+  aptidoes Aptidoes @relation(fields: [aptidoesId], references: [id])
+}
+
+model Praticas {
+  id Int @id @default(autoincrement())
+  armas Int
+  atletismo Int
+  expressao Int
+  furtividade Int
+  manufaturas Int
+  sobrevivencia Int
+  aptidoesId Int @unique
+  aptidoes Aptidoes @relation(fields: [aptidoesId], references: [id])
+}
+
+model Saude {
+  id Int @id @default(autoincrement())
+  saudavelAtual Int @default(1)
+  saudavelTotal Int @default(1)
+  escoriacaoAtual Int @default(1)
+  escoriacaoTotal Int @default(1)
+  laceracaoAtual Int @default(1)
+  laceracaoTotal Int @default(1)
+  ferimentosAtual Int @default(1)
+  ferimentosTotal Int @default(1)
+  debilicaoAtual Int @default(1)
+  debilicaoTotal Int @default(1)
+  incapacitacaoAtual Int @default(1)
+  incapacitacaoTotal Int @default(1)
+  fichaId Int @unique
+  ficha FichaPersonagem @relation (fields: [fichaId], references: [id])
+}
+
+model Determinacao {
+  id Int @id @default(autoincrement())
+  determinacao Int @default(9)
+  assimilacao Int @default(1)
+  fichaId Int @unique
+  ficha FichaPersonagem @relation (fields: [fichaId], references: [id])
+}
+
+model Carcteristica {
+  id Int @id @default(autoincrement())
+  titulo String?
+  conteudo String?
+  fichaId Int
+  ficha FichaPersonagem @relation (fields: [fichaId], references: [id])
+}
+
+model Assimilacoes {
+  id Int @id @default(autoincrement())
+  titulo String?
+  conteudo String?
+  fichaId Int 
+  ficha FichaPersonagem @relation (fields: [fichaId], references: [id])
+}
+
+model Inventario {
+  id Int @id @default(autoincrement())
+  espacos Int @default(10)
+  item String
+  descricao String?
+  fichaId Int 
+  ficha FichaPersonagem @relation (fields: [fichaId], references: [id])
+}
