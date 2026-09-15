@@ -14,7 +14,10 @@ export const fichaService = {
 
     create: async (
         userId: number,
-        aptidoes: Prisma.AptidoesCreateWithoutFichaInput,
+        aptidoes: {     
+            instintos: Prisma.InstintosCreateWithoutAptidoesInput,
+            conhecimentos: Prisma.ConhecimentosCreateWithoutAptidoesInput,
+            praticas: Prisma.PraticasCreateWithoutAptidoesInput},
         assimilacoes: Prisma.AssimilacoesCreateWithoutFichaInput[],
         caracteristica: Prisma.CarcteristicaCreateWithoutFichaInput[],
         descricao: Prisma.DescricaoCreateWithoutFichaInput,
@@ -28,6 +31,40 @@ export const fichaService = {
             assimilacoes,
             caracteristica,
             descricao,
+            determinacao,
+            inventario,
+            saude
+        )
+        return sucess
+    },
+
+    update: async(
+        fichaId: number,
+        userId: number,
+        aptidoes: {
+            instintos: Prisma.InstintosUpdateWithoutAptidoesInput,
+            conhecimentos: Prisma.ConhecimentosUpdateWithoutAptidoesInput,
+            praticas: Prisma.PraticasUpdateWithoutAptidoesInput
+        },
+        assimilacoes: Prisma.AssimilacoesCreateWithoutFichaInput[],
+        caracteristica: Prisma.CarcteristicaCreateWithoutFichaInput[],
+        descricao: Prisma.DescricaoUpdateWithoutFichaInput,
+        determinacao: Prisma.DeterminacaoUpdateWithoutFichaInput,
+        inventario: Prisma.InventarioCreateWithoutFichaInput[],
+        saude: Prisma.SaudeUpdateWithoutFichaInput
+    ) => {
+
+        const ficha = await fichaPersonagemRepository.findById(fichaId, userId)
+
+        if (!ficha) {
+            throw new Error("Ficha não encontrada")
+        }
+        const sucess = await fichaPersonagemRepository.update(
+            fichaId,
+            aptidoes,
+            assimilacoes,
+            caracteristica,
+            descricao, 
             determinacao,
             inventario,
             saude

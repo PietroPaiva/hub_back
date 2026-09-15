@@ -28,7 +28,7 @@ model FichaPersonagem {
   caracteristica Carcteristica[]
   assimilacoes Assimilacoes[]
   userId Int 
-  relationUser User @relation(fields: [userId], references: [id])
+  relationUser User @relation(fields: [userId], references: [id],  onDelete: Cascade )
 }
 
 model Descricao {
@@ -40,7 +40,7 @@ model Descricao {
   propositosPessoais String
   propositosColetivos String
   fichaId Int @unique
-  ficha FichaPersonagem @relation(fields: [fichaId], references: [id])
+  ficha FichaPersonagem @relation(fields: [fichaId], references: [id], onDelete: Cascade)
 }
 
 model Aptidoes {
@@ -49,7 +49,7 @@ model Aptidoes {
   conhecimentos Conhecimentos?
   praticas Praticas?
   fichaId Int @unique
-  ficha FichaPersonagem @relation(fields: [fichaId], references: [id])
+  ficha FichaPersonagem @relation(fields: [fichaId], references: [id], onDelete: Cascade)
 }
 
 model Instintos {
@@ -61,7 +61,7 @@ model Instintos {
   resolucao Int @default(1)
   sagacidade Int @default(1)
   aptidoesId Int @unique
-  aptidoes Aptidoes @relation(fields: [aptidoesId], references: [id])
+  aptidoes Aptidoes @relation(fields: [aptidoesId], references: [id], onDelete: Cascade)
 }
 
 model Conhecimentos {
@@ -73,7 +73,7 @@ model Conhecimentos {
   medicina Int
   seguranca Int
   aptidoesId Int @unique
-  aptidoes Aptidoes @relation(fields: [aptidoesId], references: [id])
+  aptidoes Aptidoes @relation(fields: [aptidoesId], references: [id], onDelete: Cascade)
 }
 
 model Praticas {
@@ -85,7 +85,7 @@ model Praticas {
   manufaturas Int
   sobrevivencia Int
   aptidoesId Int @unique
-  aptidoes Aptidoes @relation(fields: [aptidoesId], references: [id])
+  aptidoes Aptidoes @relation(fields: [aptidoesId], references: [id], onDelete: Cascade)
 }
 
 model Saude {
@@ -103,7 +103,7 @@ model Saude {
   incapacitacaoAtual Int @default(1)
   incapacitacaoTotal Int @default(1)
   fichaId Int @unique
-  ficha FichaPersonagem @relation (fields: [fichaId], references: [id])
+  ficha FichaPersonagem @relation(fields: [fichaId], references: [id], onDelete: Cascade)
 }
 
 model Determinacao {
@@ -111,7 +111,7 @@ model Determinacao {
   determinacao Int @default(9)
   assimilacao Int @default(1)
   fichaId Int @unique
-  ficha FichaPersonagem @relation (fields: [fichaId], references: [id])
+  ficha FichaPersonagem @relation(fields: [fichaId], references: [id], onDelete: Cascade)
 }
 
 model Carcteristica {
@@ -119,7 +119,7 @@ model Carcteristica {
   titulo String?
   conteudo String?
   fichaId Int
-  ficha FichaPersonagem @relation (fields: [fichaId], references: [id])
+  ficha FichaPersonagem @relation(fields: [fichaId], references: [id], onDelete: Cascade)
 }
 
 model Assimilacoes {
@@ -127,7 +127,7 @@ model Assimilacoes {
   titulo String?
   conteudo String?
   fichaId Int 
-  ficha FichaPersonagem @relation (fields: [fichaId], references: [id])
+  ficha FichaPersonagem @relation(fields: [fichaId], references: [id], onDelete: Cascade)
 }
 
 model Inventario {
@@ -136,5 +136,5 @@ model Inventario {
   item String
   descricao String?
   fichaId Int 
-  ficha FichaPersonagem @relation (fields: [fichaId], references: [id])
+  ficha FichaPersonagem @relation(fields: [fichaId], references: [id], onDelete: Cascade)
 }

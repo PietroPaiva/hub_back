@@ -29,6 +29,21 @@ export const fichaController = {
         res.json(fichas)
 
     },
+
+    update: async (req: Request, res: Response) => {
+        const fichaId = Number(req.params.id)
+        const userId = Number(req.body.userId)
+        const aptidoes = req.body.aptidoes
+        const assimilacoes = req.body.assimilacoes
+        const caracteristica = req.body.caracteristica
+        const descricao = req.body.descricao
+        const determinacao = req.body.determinacao
+        const inventario = req.body.inventario
+        const saude = req.body.saude
+
+        const fichas = await fichaService.update(fichaId, userId,  aptidoes, assimilacoes, caracteristica, descricao, determinacao, inventario, saude)
+        res.json(fichas)
+    },
     
     delete: async (req: Request, res: Response) => {
         const fichaId = Number(req.params.id)
