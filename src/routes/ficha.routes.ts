@@ -1,7 +1,10 @@
 import express from 'express'
 import { fichaController } from '../controller/ficha';
+import { authMiddleware } from "../middleware/auth.middleware"
 
 const router = express.Router()
+
+router.use(authMiddleware)
 
 router.get('/',fichaController.findAll)
 router.get('/:id', fichaController.findById)
