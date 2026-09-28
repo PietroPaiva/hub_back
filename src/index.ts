@@ -13,7 +13,7 @@ app.use(cors());
 app.use(express.urlencoded({ extended: false}));
 
 app.use('/fichas', fichaRouter)
-app.use('/users', userRouter)
+app.use('/auth', userRouter)
 
 
 app.listen(3000, () => {

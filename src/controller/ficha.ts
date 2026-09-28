@@ -4,6 +4,10 @@ import { Request, Response } from 'express';
 export const fichaController = {
     findAll: async (req: Request, res: Response) => {
         const userId = req.userId
+            if (!userId) {
+                return res.status(401).json({ error: "Não autenticado" })
+            }
+
         const fichas = await fichaService.findAll(userId)
         res.json(fichas)
     },
@@ -11,12 +15,20 @@ export const fichaController = {
     findById: async (req: Request, res: Response) => {
         const userId = req.userId
         const fichaId = Number(req.params.id)
+
+            if (!userId) {
+                return res.status(401).json({ error: "Não autenticado" })
+            }
+            
         const fichas = await fichaService.findByID(fichaId, userId)  
         res.json(fichas)      
     },
 
     create: async (req: Request, res: Response) => {
         const userId = req.userId 
+            if (!userId) {
+                return res.status(401).json({ error: "Não autenticado" })
+            }
         const aptidoes = req.body.aptidoes
         const assimilacoes = req.body.assimilacoes
         const caracteristica = req.body.caracteristica
@@ -33,6 +45,9 @@ export const fichaController = {
     update: async (req: Request, res: Response) => {
         const fichaId = Number(req.params.id)
         const userId = req.userId
+            if (!userId) {
+                return res.status(401).json({ error: "Não autenticado" })
+            }
         const aptidoes = req.body.aptidoes
         const assimilacoes = req.body.assimilacoes
         const caracteristica = req.body.caracteristica
@@ -48,6 +63,9 @@ export const fichaController = {
     delete: async (req: Request, res: Response) => {
         const fichaId = Number(req.params.id)
         const userId = req.userId
+            if (!userId) {
+                return res.status(401).json({ error: "Não autenticado" })
+            }
 
         const fichas = await fichaService.delete(fichaId, userId)
         res.json(fichas)

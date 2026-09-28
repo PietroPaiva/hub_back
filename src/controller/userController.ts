@@ -13,8 +13,9 @@ export const userController = {
        }
 
        catch (error) {
-        res.status(400).json({ error: error.message })
-       }
+        const mensagem = error instanceof Error ? error.message : "Erro inesperado"
+        res.status(400).json({ error: mensagem })
+        }
     },
 
     login: async (req: Request, res:Response) => {
@@ -26,8 +27,9 @@ export const userController = {
         res.json(dataUser)
         }
 
-       catch (error){
-        res.status(400).json({ error: error.message })
-       }        
+       catch (error) {
+        const mensagem = error instanceof Error ? error.message : "Erro inesperado"
+        res.status(400).json({ error: mensagem })
+        }        
     }
 }
