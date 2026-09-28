@@ -13,5 +13,6 @@ function obrigatoria(nome: string): string {
 export const env = {
     DATABASE_URL: obrigatoria("DATABASE_URL"),
     JWT_SECRET: obrigatoria("JWT_SECRET"),
-    PORT: Number(process.env.PORT ?? 3000)
+    PORT: Number(process.env.PORT ?? 3000),
+    FRONT_URL: process.env.FRONT_URL ?? "http://localhost:5173"
 }
