@@ -1,6 +1,11 @@
 import { Prisma } from "../generated/prisma/client";
 import { prisma } from "../database/database"
 
+function limpar<T extends object>(obj: T): T {
+    const { id, fichaId, aptidoesId, ...resto } = obj as any
+    return resto as T
+}
+
 export const fichaPersonagemRepository = {
     findAll: (userId: number) => {
         return prisma.fichaPersonagem.findMany({ 
@@ -104,23 +109,23 @@ export const fichaPersonagemRepository = {
     determinacao: Prisma.DeterminacaoUpdateWithoutFichaInput,
     inventario: Prisma.InventarioCreateWithoutFichaInput[],
     saude: Prisma.SaudeUpdateWithoutFichaInput
-    ) => {
+) => {
     return prisma.fichaPersonagem.update({
         where: { id: fichaId },
         data: {
             aptidoes: {
                 update: {
-                    instintos: { update: aptidoes.instintos },
-                    conhecimentos: { update: aptidoes.conhecimentos },
-                    praticas: { update: aptidoes.praticas },
+                    instintos: { update: limpar(aptidoes.instintos) },
+                    conhecimentos: { update: limpar(aptidoes.conhecimentos) },
+                    praticas: { update: limpar(aptidoes.praticas) },
                 }
             },
-            descricao: { update: descricao },
-            determinacao: { update: determinacao },
-            saude: { update: saude },
-            assimilacoes: { deleteMany: {}, create: assimilacoes },
-            caracteristica: { deleteMany: {}, create: caracteristica },
-            inventario: { deleteMany: {}, create: inventario },
+            descricao: { update: limpar(descricao) },
+            determinacao: { update: limpar(determinacao) },
+            saude: { update: limpar(saude) },
+            assimilacoes: { deleteMany: {}, create: assimilacoes.map(limpar) },
+            caracteristica: { deleteMany: {}, create: caracteristica.map(limpar) },
+            inventario: { deleteMany: {}, create: inventario.map(limpar) },
         },
         include: {
             aptidoes: { include: { instintos: true, conhecimentos: true, praticas: true } },
@@ -131,9 +136,8 @@ export const fichaPersonagemRepository = {
             inventario: true,
             saude: true
         }
-        })
-    }
-
+    })
+    },
 
 
 }

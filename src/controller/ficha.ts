@@ -3,7 +3,7 @@ import { Request, Response } from 'express';
 
 export const fichaController = {
     findAll: async (req: Request, res: Response) => {
-        const userId = req.userId
+        const userId = req.userId!
             if (!userId) {
                 return res.status(401).json({ error: "Não autenticado" })
             }
@@ -13,7 +13,7 @@ export const fichaController = {
     },
 
     findById: async (req: Request, res: Response) => {
-        const userId = req.userId
+        const userId = req.userId!
         const fichaId = Number(req.params.id)
 
             if (!userId) {
@@ -25,7 +25,7 @@ export const fichaController = {
     },
 
     create: async (req: Request, res: Response) => {
-        const userId = req.userId 
+        const userId = req.userId!
             if (!userId) {
                 return res.status(401).json({ error: "Não autenticado" })
             }
@@ -43,26 +43,22 @@ export const fichaController = {
     },
 
     update: async (req: Request, res: Response) => {
+    try {
         const fichaId = Number(req.params.id)
-        const userId = req.userId
-            if (!userId) {
-                return res.status(401).json({ error: "Não autenticado" })
-            }
-        const aptidoes = req.body.aptidoes
-        const assimilacoes = req.body.assimilacoes
-        const caracteristica = req.body.caracteristica
-        const descricao = req.body.descricao
-        const determinacao = req.body.determinacao
-        const inventario = req.body.inventario
-        const saude = req.body.saude
+        const userId = req.userId!
+        const { aptidoes, assimilacoes, caracteristica, descricao, determinacao, inventario, saude } = req.body
 
-        const fichas = await fichaService.update(fichaId, userId,  aptidoes, assimilacoes, caracteristica, descricao, determinacao, inventario, saude)
+        const fichas = await fichaService.update(fichaId, userId, aptidoes, assimilacoes, caracteristica, descricao, determinacao, inventario, saude)
         res.json(fichas)
+    } catch (error) {
+        const message = error instanceof Error ? error.message : "Erro desconhecido"
+        res.status(404).json({ error: message })
+    }
     },
     
     delete: async (req: Request, res: Response) => {
         const fichaId = Number(req.params.id)
-        const userId = req.userId
+        const userId = req.userId!
             if (!userId) {
                 return res.status(401).json({ error: "Não autenticado" })
             }
